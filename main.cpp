@@ -19,16 +19,26 @@
 
 using namespace std;
 
-bool startMenu(Polynomial& lhs, Polynomial& rhs, Polynomial& ans);
+int runMenu(Polynomial& lhs, Polynomial& rhs, Polynomial& ans);
 
 /*
  * 
  */
 int main() {
+    bool quit = false;
+    int code = 1;
     Polynomial polys[3];
     
-    bool error = startMenu(polys[0],polys[1],polys[2]);
+    cout << "Intro" << endl;
     
-    if (error) return 1;
+    while(!quit) {
+        code = runMenu(polys[0],polys[1],polys[2]);
+        if (code <= 0) quit = true;
+    }
+    
     return 0;
+}
+
+int runMenu(Polynomial& lhs, Polynomial& rhs, Polynomial& ans) {
+    
 }
