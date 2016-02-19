@@ -12,6 +12,7 @@
  * 22 Feb 2016
  */
 
+#include <cstdlib> //strtol
 #include <iostream>
 #include <string>
 
@@ -53,12 +54,12 @@ int runMenu(Polynomial& lhs, Polynomial& rhs, Polynomial& ans) {
          << "    6. Quit." << endl
          << ": ";
     
-    int selection;
+    string input;
     bool error;
     
-    cin >> selection;
+    cin >> input;
     
-    switch (selection) {
+    switch (strtol(input.c_str(),NULL,10)) {
         case 1:
             error = inputPoly(lhs);
             if (error) break;
@@ -96,3 +97,11 @@ int runMenu(Polynomial& lhs, Polynomial& rhs, Polynomial& ans) {
     if (error) cout << "\nError parsing string!" << endl;
     return 1;
 }
+
+bool inputPoly(Polynomial& p) {
+    cout << "Enter a polynomial below." << endl;
+    string input;
+    cin >> input;
+    return !p.parse(input);
+}
+
