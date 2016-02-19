@@ -6,8 +6,16 @@ public:
     Term();
     Term(const Term& orig);
     ~Term();
-private:
+    
+    //getters&&setters
+    void set_exponent(const int expo);
+    void set_coefficient(const int coeff);
+    int get_exponent();
+    int get_coefficient();
 
+private:
+    int exponent;
+    int coefficient;
 };
 
 #endif /* TERM_H */

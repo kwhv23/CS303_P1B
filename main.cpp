@@ -3,7 +3,7 @@
  * TEAM ONE!
  *      Bother, Jacob
  *      Brown, Joshua
- *      Hamilton, Kenton
+ *      Hanifl, Kenton
  * 
  * UMKC
  * CS303
@@ -23,12 +23,12 @@ int runMenu(Polynomial& lhs, Polynomial& rhs, Polynomial& ans);
 
 /*
  * 
- */
+ *
 int main() {
     bool quit = false;
     int code = 1;
     Polynomial polys[3];
-    
+
     cout << "Intro" << endl;
     
     while(!quit) {
@@ -38,7 +38,19 @@ int main() {
     
     return 0;
 }
+*/
+
+int main() {
+    std::string s;
+    std::cin >> s;
+    Polynomial P;
+    P.parse(s);
+    
+    return 0;
+
+}
+
 
 int runMenu(Polynomial& lhs, Polynomial& rhs, Polynomial& ans) {
-    
+    return 0;
 }
