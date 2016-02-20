@@ -34,7 +34,7 @@ int main() {
     cout << "Welcome to this program which adds Polynomials. Here's an example:" << endl
          << "2x^9+2x^2-x+5-42x^-1" << endl
          << "You can enter terms in any order and even have several of the same." << endl
-         << "x^2 + x - 2x + 4 + 1 +x^2+2x^9   -42x^-1" << endl << endl;
+         << "x^2+x-2x+4+1+x^2+2x^9-42x^-1" << endl << endl;
 
     while(!quit) {
         code = runMenu(polys[0],polys[1],polys[2]);
@@ -68,7 +68,7 @@ int runMenu(Polynomial& lhs, Polynomial& rhs, Polynomial& ans) {
             ans = lhs + rhs;
             cout << "\n\n" << lhs.toString() << endl
                  << "+\n" << rhs.toString() << endl
-                 << "\n=\n" << ans.toString() << endl << endl; 
+                 << "=\n" << ans.toString() << endl << endl; 
             break;
         case 2:
             error = inputPoly(lhs);
@@ -85,7 +85,7 @@ int runMenu(Polynomial& lhs, Polynomial& rhs, Polynomial& ans) {
             ans = lhs + rhs;
             cout << "\n\n" << lhs.toString() << endl
                  << "+\n" << rhs.toString() << endl
-                 << "\n=\n" << ans.toString() << endl << endl; 
+                 << "=\n" << ans.toString() << endl << endl; 
             break;
         case 6:
             cout << "See ya!" << endl;
