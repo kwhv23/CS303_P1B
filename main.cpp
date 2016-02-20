@@ -3,7 +3,7 @@
  * TEAM ONE!
  *      Bother, Jacob
  *      Brown, Joshua
- *      Hamilton, Kenton
+ *      Hanifl, Kenton
  * 
  * UMKC
  * CS303
@@ -35,7 +35,7 @@ int main() {
          << "2x^9+2x^2-x+5-42x^-1" << endl
          << "You can enter terms in any order and even have several of the same." << endl
          << "x^2 + x - 2x + 4 + 1 +x^2+2x^9   -42x^-1" << endl << endl;
-    
+
     while(!quit) {
         code = runMenu(polys[0],polys[1],polys[2]);
         if (code <= 0) quit = true;

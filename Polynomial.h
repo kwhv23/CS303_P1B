@@ -3,6 +3,7 @@
 
 #include <string>
 #include <list>
+#include "Term.h"
 
 class Polynomial {
 public:
@@ -18,7 +19,7 @@ public:
     
     //more stuff!
 private:
-
+    std::list<Term> term_list;
 };
 
 #endif /* POLYNOMIAL_H */
