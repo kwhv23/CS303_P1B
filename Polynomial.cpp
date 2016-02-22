@@ -22,7 +22,6 @@ bool Polynomial::parse(std::string input){
             s.putback(next_char);
             s >> num;
             //make the coefficient negative if the last operand we encountered was a -
-            //TEST
             if (last_operand == '-') { num *= -1; }
             next_term.set_coefficient(num);
 
@@ -50,9 +49,16 @@ bool Polynomial::parse(std::string input){
                         term_list.push_back(next_term);
                         continue;
                     }
+                    else{
+                        //throw exception
+                        throw std::exception("Read unexpected character.");
+                        return false;
+                    }
                 }
                 //otherwise, we have an exponent of 1 and we can start the loop again
                 else{
+                    //putback whatever we read instead of a ^
+                    s.putback(next_char);
                     next_term.set_exponent(1);
                     term_list.push_back(next_term);
                     continue;
@@ -69,6 +75,9 @@ bool Polynomial::parse(std::string input){
         
         //if it's not a number, then it might be a variable
         else if (next_char == 'x' || next_char == 'X'){
+            //we're going to have a coefficient of 1, but, if the previous operand was -, it's a -1
+            next_term.set_coefficient(1);
+            if (last_operand == '-'){ next_term.set_coefficient(-1); }
             //if an x is next, then we read again to see if we have an exponent to get
             s >> next_char;
             if (next_char == '^'){
@@ -95,6 +104,14 @@ bool Polynomial::parse(std::string input){
                     throw std::exception("Read unexpected character.");
                     return false;
                 }
+            }
+            //otherwise, we have no exponent
+            else{
+                //put back whatever we read instead of a ^
+                s.putback(next_char);
+                next_term.set_exponent(1);
+                term_list.push_back(next_term);
+                continue;
             }
         }
 
