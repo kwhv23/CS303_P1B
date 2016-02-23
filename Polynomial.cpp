@@ -1,10 +1,19 @@
 #include "Polynomial.h"
-#include <sstream>
 
 Polynomial::Polynomial() {
 }
 
+Polynomial::Polynomial(const Polynomial& orig) {
+    *this = orig;
+}
+
+Polynomial::~Polynomial() {
+    term_list.clear();
+}
+
 bool Polynomial::parse(std::string input){
+    
+    term_list.clear(); //start fresh
 
     std::stringstream s; //putting input into a stream to manipulate more easily
     s << input;
@@ -51,7 +60,7 @@ bool Polynomial::parse(std::string input){
                     }
                     else{
                         //throw exception
-                        throw std::exception("Read unexpected character.");
+                        throw std::runtime_error("Read unexpected character.");
                         return false;
                     }
                 }
@@ -101,7 +110,7 @@ bool Polynomial::parse(std::string input){
                 }
                 else{
                     //throw exception
-                    throw std::exception("Read unexpected character.");
+                    throw std::runtime_error("Read unexpected character.");
                     return false;
                 }
             }
@@ -125,16 +134,47 @@ bool Polynomial::parse(std::string input){
         }
         else{
             //throw exception
-            throw std::exception("Read unexpected character.");
+            throw std::runtime_error("Read unexpected character.");
             return false;
         }
     }
     return true;
 }
 
-Polynomial::Polynomial(const Polynomial& orig) {
+const Polynomial& Polynomial::operator+(const Polynomial& rhs) const {
+    Polynomial* ans = new Polynomial(*this); //answer, starting as a clone of this polynomial
+
+    //append rhs.term_list using a const_iterator
+    for (std::list<Term>::const_iterator iter=rhs.term_list.begin(); iter!=rhs.term_list.end(); ++iter) {
+        (*ans).term_list.push_back(*iter);
+    }
+    
+    //reduce and sort here
+    
+    return *ans;
 }
 
-Polynomial::~Polynomial() {
+const Polynomial& Polynomial::operator=(const Polynomial& rhs) {
+    term_list.clear();
+    if (rhs.term_list.empty()) return *this; //empty polynomial
+    
+    //clone term_list using a const_iterator to the rhs.term_list
+    for (std::list<Term>::const_iterator iter=rhs.term_list.begin(); iter!=rhs.term_list.end(); ++iter) {
+        term_list.push_back(*iter);
+    }
+    return *this; //cloned polynomial
 }
 
+std::string Polynomial::toString() {
+    std::string str;
+    
+    //reduce and sort here, too?
+    
+    for (std::list<Term>::const_iterator iter=term_list.begin(); iter!=term_list.end(); ++iter) {
+        str += (*iter).print();
+    }
+    
+    if (str.at(0) == '+') str = str.substr(1); //remove extraneous plus if necessary
+    
+    return str;
+}

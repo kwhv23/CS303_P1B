@@ -3,6 +3,9 @@
 
 #include <string>
 #include <list>
+#include <sstream>
+#include <stdexcept>
+
 #include "Term.h"
 
 class Polynomial {
