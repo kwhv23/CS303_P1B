@@ -42,3 +42,44 @@ int Term::get_exponent() const {
 int Term::get_coefficient() const {
     return coefficient;
 }
+const Term& Term::operator=(const Term& rhs)
+{
+	exponent = rhs.exponent;
+	coefficient = rhs.coefficient;
+
+	return *this;
+}
+//Boolean operators
+bool Term::operator== (const Term& rhs)
+{
+	if (exponent == rhs.exponent)
+		return true;
+	else
+		return false;
+}
+bool Term::operator!= (const Term& rhs)
+{
+	return(!(exponent == rhs.exponent));
+}
+bool Term::operator> (const Term& rhs)
+{
+	if (exponent > rhs.exponent)
+		return true;
+	else
+		return false;
+}
+bool Term::operator>= (const Term& rhs)
+{
+	if (*this > rhs || *this == rhs)
+		return true;
+	else
+		return false;
+}
+bool Term::operator< (const Term& rhs)
+{
+	return(!(*this > rhs || *this == rhs));
+}
+bool Term::operator<= (const Term& rhs)
+{
+	return(!(*this >= rhs));
+}
