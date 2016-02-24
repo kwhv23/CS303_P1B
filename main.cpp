@@ -1,7 +1,7 @@
 /* 
  * Project 1B
  * TEAM ONE!
- *      Bother, Jacob
+ *      Bothell, Jacob
  *      Brown, Joshua
  *      Hanifl, Kenton
  * 
