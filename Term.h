@@ -17,6 +17,14 @@ public:
     void set_coefficient(const int coeff);
     int get_exponent() const;
     int get_coefficient() const;
+    const Term& operator=(const Term& rhs);
+	//boolean operators
+	bool operator== (const Term& rhs);
+	bool operator!= (const Term& rhs);
+	bool operator> (const Term& rhs);
+	bool operator>= (const Term& rhs);
+	bool operator< (const Term& rhs);
+	bool operator<= (const Term& rhs);
 
 private:
     int exponent;
