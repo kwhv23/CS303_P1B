@@ -186,6 +186,8 @@ std::string Polynomial::toString() {
     //reduce and sort here, too
     reduce();
     
+    if (term_list.empty()) return str;
+    
     //append all terms' strings together to make the polynomial
     for (std::list<Term>::const_iterator iter=term_list.begin(); iter!=term_list.end(); ++iter) {
         str += (*iter).print();
