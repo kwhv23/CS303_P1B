@@ -69,15 +69,19 @@ int runMenu(Polynomial& lhs, Polynomial& rhs, Polynomial& ans) {
             error = inputPoly(rhs);
             if (error) break;
             ans = lhs + rhs;
+            lhs.reduce();
+            rhs.reduce();
             cout << "\n\n" << lhs.toString() << endl
                  << "+\n" << rhs.toString() << endl
                  << "=\n" << ans.toString() << endl << endl; 
             break;
         case 2: //input left operand
             error = inputPoly(lhs);
+            lhs.reduce();
             break;
         case 3: //input right operand
             error = inputPoly(rhs);
+            rhs.reduce();
             break;
         case 4: //view stored polynomials without adding
             cout << lhs.toString() << endl << endl

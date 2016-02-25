@@ -183,9 +183,6 @@ const Polynomial& Polynomial::operator=(const Polynomial& rhs) {
 std::string Polynomial::toString() {
     std::string str;
     
-    //reduce and sort here, too
-    reduce();
-    
     if (term_list.empty()) return str;
     
     //append all terms' strings together to make the polynomial
