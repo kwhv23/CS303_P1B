@@ -1,10 +1,24 @@
 #include "Polynomial.h"
-#include <sstream>
 
 Polynomial::Polynomial() {
 }
 
+Polynomial::Polynomial(const Polynomial& orig) {
+    *this = orig;
+}
+
+Polynomial::Polynomial(std::list<Term>& lst)
+{
+	term_list = lst;
+}
+
+Polynomial::~Polynomial() {
+    term_list.clear();
+}
+
 bool Polynomial::parse(std::string input){
+    
+    term_list.clear(); //start fresh
 
     std::stringstream s; //putting input into a stream to manipulate more easily
     s << input;
@@ -51,7 +65,7 @@ bool Polynomial::parse(std::string input){
                     }
                     else{
                         //throw exception
-                        throw std::exception("Read unexpected character.");
+                        throw std::runtime_error("Read unexpected character.");
                         return false;
                     }
                 }
@@ -101,7 +115,7 @@ bool Polynomial::parse(std::string input){
                 }
                 else{
                     //throw exception
-                    throw std::exception("Read unexpected character.");
+                    throw std::runtime_error("Read unexpected character.");
                     return false;
                 }
             }
@@ -125,16 +139,93 @@ bool Polynomial::parse(std::string input){
         }
         else{
             //throw exception
-            throw std::exception("Read unexpected character.");
+            throw std::runtime_error("Read unexpected character.");
             return false;
         }
     }
     return true;
 }
 
-Polynomial::Polynomial(const Polynomial& orig) {
+Polynomial& Polynomial::operator+(const Polynomial& rhs)
+{
+	//makes temps that can be worked with
+	std::list<Term> tmp1 = term_list;
+	std::list<Term> tmp2 = rhs.term_list;
+	std::list<Term>::iterator itt;
+	
+	for (itt = tmp2.begin(); itt != tmp2.end(); itt++)
+	{
+		tmp1.push_back(*itt);
+	}
+
+	//puts list back into a wrapper object
+	Polynomial* temp = new Polynomial(); //switched to pointer to fix segfault
+	(*temp).term_list = tmp1;
+
+	//reduces the new list
+	(*temp).reduce();
+
+	return *temp;
 }
 
-Polynomial::~Polynomial() {
+const Polynomial& Polynomial::operator=(const Polynomial& rhs) {
+    term_list.clear();
+    if (rhs.term_list.empty()) return *this; //empty polynomial
+    
+    //clone term_list using a const_iterator to the rhs.term_list
+    for (std::list<Term>::const_iterator iter=rhs.term_list.begin(); iter!=rhs.term_list.end(); ++iter) {
+        term_list.push_back(*iter);
+    }
+    return *this; //cloned polynomial
 }
 
+std::string Polynomial::toString() {
+    std::string str;
+    
+    //reduce and sort here, too
+    reduce();
+    
+    for (std::list<Term>::const_iterator iter=term_list.begin(); iter!=term_list.end(); ++iter) {
+        str += (*iter).print();
+    }
+    
+    if (str.at(0) == '+') str = str.substr(1); //remove extraneous plus if necessary
+    
+    return str;
+}
+
+void Polynomial::reduce()
+{
+	this->term_list.sort(std::greater<Term>()); //switch to ascending order
+
+	std::list<Term>::iterator itt1 = this->term_list.begin();
+	std::list<Term>::iterator itt2 = this->term_list.begin();
+	std::list<Term> ret;
+	Term term;
+	bool used;
+	while (itt1 != term_list.end())
+	{
+		used = false;
+		itt2 = itt1;
+		itt2++;
+		term.set_coefficient(itt1->get_coefficient());
+		term.set_exponent(itt1->get_exponent());
+		for (itt2; itt2 != term_list.end(); itt2++)
+		{
+			if (*itt1 == *itt2)
+			{
+				term.set_coefficient(term.get_coefficient() + itt2->get_coefficient());
+			}
+			else
+			{
+				itt1 = itt2;
+				break;
+			}
+		}
+		ret.push_back(term);
+		if (itt2 == term_list.end())
+			break;
+	}
+	
+	this->term_list = ret;
+}
