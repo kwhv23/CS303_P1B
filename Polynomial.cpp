@@ -159,13 +159,13 @@ Polynomial& Polynomial::operator+(const Polynomial& rhs)
 	}
 
 	//puts list back into a wrapper object
-	Polynomial temp;
-	temp.term_list = tmp1;
+	Polynomial* temp = new Polynomial(); //switched to pointer to fix segfault
+	(*temp).term_list = tmp1;
 
 	//reduces the new list
-	temp.reduce();
+	(*temp).reduce();
 
-	return temp;
+	return *temp;
 }
 
 const Polynomial& Polynomial::operator=(const Polynomial& rhs) {
@@ -182,7 +182,8 @@ const Polynomial& Polynomial::operator=(const Polynomial& rhs) {
 std::string Polynomial::toString() {
     std::string str;
     
-    //reduce and sort here, too?
+    //reduce and sort here, too
+    reduce();
     
     for (std::list<Term>::const_iterator iter=term_list.begin(); iter!=term_list.end(); ++iter) {
         str += (*iter).print();
@@ -195,7 +196,7 @@ std::string Polynomial::toString() {
 
 void Polynomial::reduce()
 {
-	this->term_list.sort();
+	this->term_list.sort(std::greater<Term>()); //switch to ascending order
 
 	std::list<Term>::iterator itt1 = this->term_list.begin();
 	std::list<Term>::iterator itt2 = this->term_list.begin();

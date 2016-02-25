@@ -33,15 +33,19 @@ std::string Term::print() const {
 void Term::set_exponent(const int expo){
     exponent = expo;
 }
+
 void Term::set_coefficient(const int coeff){
     coefficient = coeff;
 }
+
 int Term::get_exponent() const {
     return exponent;
 }
+
 int Term::get_coefficient() const {
     return coefficient;
 }
+
 const Term& Term::operator=(const Term& rhs)
 {
 	exponent = rhs.exponent;
@@ -49,37 +53,34 @@ const Term& Term::operator=(const Term& rhs)
 
 	return *this;
 }
+
 //Boolean operators
-bool Term::operator== (const Term& rhs)
+bool Term::operator== (const Term& rhs) const //needed to be const
 {
-	if (exponent == rhs.exponent)
-		return true;
-	else
-		return false;
+	return exponent == rhs.exponent; //simplified
 }
-bool Term::operator!= (const Term& rhs)
+
+bool Term::operator!= (const Term& rhs) const //ditto
 {
-	return(!(exponent == rhs.exponent));
+	return exponent != rhs.exponent;
 }
-bool Term::operator> (const Term& rhs)
+
+bool Term::operator> (const Term& rhs) const //etc
 {
-	if (exponent > rhs.exponent)
-		return true;
-	else
-		return false;
+	return exponent > rhs.exponent;
 }
-bool Term::operator>= (const Term& rhs)
+
+bool Term::operator>= (const Term& rhs) const
 {
-	if (*this > rhs || *this == rhs)
-		return true;
-	else
-		return false;
+    return exponent >= rhs.exponent;
 }
-bool Term::operator< (const Term& rhs)
+
+bool Term::operator< (const Term& rhs) const
 {
-	return(!(*this > rhs || *this == rhs));
+    return exponent < rhs.exponent;
 }
-bool Term::operator<= (const Term& rhs)
+
+bool Term::operator<= (const Term& rhs) const
 {
-	return(!(*this >= rhs));
+	return exponent <= rhs.exponent;
 }

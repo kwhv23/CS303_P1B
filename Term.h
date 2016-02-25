@@ -18,13 +18,14 @@ public:
     int get_exponent() const;
     int get_coefficient() const;
     const Term& operator=(const Term& rhs);
-	//boolean operators
-	bool operator== (const Term& rhs);
-	bool operator!= (const Term& rhs);
-	bool operator> (const Term& rhs);
-	bool operator>= (const Term& rhs);
-	bool operator< (const Term& rhs);
-	bool operator<= (const Term& rhs);
+    
+    //boolean operators
+    bool operator== (const Term& rhs) const; //need to be const
+    bool operator!= (const Term& rhs) const;
+    bool operator> (const Term& rhs) const;
+    bool operator>= (const Term& rhs) const;
+    bool operator< (const Term& rhs) const;
+    bool operator<= (const Term& rhs) const;
 
 private:
     int exponent;
