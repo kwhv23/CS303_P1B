@@ -7,6 +7,11 @@ Polynomial::Polynomial(const Polynomial& orig) {
     *this = orig;
 }
 
+Polynomial::Polynomial(std::list<Term>& lst)
+{
+	term_list = lst;
+}
+
 Polynomial::~Polynomial() {
     term_list.clear();
 }
@@ -141,17 +146,26 @@ bool Polynomial::parse(std::string input){
     return true;
 }
 
-const Polynomial& Polynomial::operator+(const Polynomial& rhs) const {
-    Polynomial* ans = new Polynomial(*this); //answer, starting as a clone of this polynomial
+Polynomial& Polynomial::operator+(const Polynomial& rhs)
+{
+	//makes temps that can be worked with
+	std::list<Term> tmp1 = term_list;
+	std::list<Term> tmp2 = rhs.term_list;
+	std::list<Term>::iterator itt;
+	
+	for (itt = tmp2.begin(); itt != tmp2.end(); itt++)
+	{
+		tmp1.push_back(*itt);
+	}
 
-    //append rhs.term_list using a const_iterator
-    for (std::list<Term>::const_iterator iter=rhs.term_list.begin(); iter!=rhs.term_list.end(); ++iter) {
-        (*ans).term_list.push_back(*iter);
-    }
-    
-    //reduce and sort here
-    
-    return *ans;
+	//puts list back into a wrapper object
+	Polynomial temp;
+	temp.term_list = tmp1;
+
+	//reduces the new list
+	temp.reduce();
+
+	return temp;
 }
 
 const Polynomial& Polynomial::operator=(const Polynomial& rhs) {
@@ -177,4 +191,40 @@ std::string Polynomial::toString() {
     if (str.at(0) == '+') str = str.substr(1); //remove extraneous plus if necessary
     
     return str;
+}
+
+void Polynomial::reduce()
+{
+	this->term_list.sort();
+
+	std::list<Term>::iterator itt1 = this->term_list.begin();
+	std::list<Term>::iterator itt2 = this->term_list.begin();
+	std::list<Term> ret;
+	Term term;
+	bool used;
+	while (itt1 != term_list.end())
+	{
+		used = false;
+		itt2 = itt1;
+		itt2++;
+		term.set_coefficient(itt1->get_coefficient());
+		term.set_exponent(itt1->get_exponent());
+		for (itt2; itt2 != term_list.end(); itt2++)
+		{
+			if (*itt1 == *itt2)
+			{
+				term.set_coefficient(term.get_coefficient() + itt2->get_coefficient());
+			}
+			else
+			{
+				itt1 = itt2;
+				break;
+			}
+		}
+		ret.push_back(term);
+		if (itt2 == term_list.end())
+			break;
+	}
+	
+	this->term_list = ret;
 }
