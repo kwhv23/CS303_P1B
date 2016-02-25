@@ -9,7 +9,7 @@ Polynomial::Polynomial(const Polynomial& orig) {
 
 Polynomial::Polynomial(std::list<Term>& lst)
 {
-	term_list = lst;
+    term_list = lst;
 }
 
 Polynomial::~Polynomial() {
@@ -81,6 +81,7 @@ bool Polynomial::parse(std::string input){
             //otherwise, this term is a constant, we're done and we can start the loop again
             //to define a constant, I'm just using an exponent of 0. If there is an exponent of 0 and we treat it like a constant, it'd be like 5x^0 which would just be 5 (a constant) anyways, right?
             else{
+                s.putback(next_char);
                 next_term.set_exponent(0);
                 term_list.push_back(next_term);
                 continue;
@@ -160,10 +161,10 @@ Polynomial& Polynomial::operator+(const Polynomial& rhs)
 
 	//puts list back into a wrapper object
 	Polynomial* temp = new Polynomial(); //switched to pointer to fix segfault
-	(*temp).term_list = tmp1;
+	temp->term_list = tmp1;
 
 	//reduces the new list
-	(*temp).reduce();
+	temp->reduce();
 
 	return *temp;
 }
@@ -185,6 +186,7 @@ std::string Polynomial::toString() {
     //reduce and sort here, too
     reduce();
     
+    //append all terms' strings together to make the polynomial
     for (std::list<Term>::const_iterator iter=term_list.begin(); iter!=term_list.end(); ++iter) {
         str += (*iter).print();
     }
@@ -196,7 +198,7 @@ std::string Polynomial::toString() {
 
 void Polynomial::reduce()
 {
-	this->term_list.sort(std::greater<Term>()); //switch to ascending order
+	this->term_list.sort(std::greater<Term>()); //switch to decending order
 
 	std::list<Term>::iterator itt1 = this->term_list.begin();
 	std::list<Term>::iterator itt2 = this->term_list.begin();
