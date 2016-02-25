@@ -12,13 +12,16 @@ class Polynomial {
 public:
     Polynomial();
     Polynomial(const Polynomial& orig);
+    Polynomial(std::list<Term>& lst);
     ~Polynomial();
     
     // needed for the menu
     bool parse(std::string input);
-    const Polynomial& operator+(const Polynomial& rhs) const;
+    Polynomial& operator+(const Polynomial& rhs);
     const Polynomial& operator=(const Polynomial& rhs);
     std::string toString();
+    //reduces the polynomial into standard form
+	void reduce();
     
     //more stuff!
 private:
