@@ -5,6 +5,7 @@
 #include <list>
 #include <sstream>
 #include <stdexcept>
+#include <functional>
 
 #include "Term.h"
 

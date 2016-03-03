@@ -58,7 +58,7 @@ int runMenu(Polynomial& lhs, Polynomial& rhs, Polynomial& ans) {
          << ": ";
     
     string input;
-    bool error;
+    bool error = false;
     
     cin >> input;
     
